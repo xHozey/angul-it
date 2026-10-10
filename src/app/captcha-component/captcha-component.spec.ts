@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { CaptchaComponent } from './captcha-component';
 
 describe('CaptchaComponent', () => {
@@ -8,6 +9,7 @@ describe('CaptchaComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [CaptchaComponent],
+      providers: [provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CaptchaComponent);

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   imports: [],
@@ -6,4 +7,6 @@ import { Component } from '@angular/core';
   styleUrl: './captcha-component.css',
   templateUrl: './captcha-component.html',
 })
-export class CaptchaComponent {}
+export class CaptchaComponent {
+
+}
