@@ -1,0 +1,39 @@
+{
+  "stages": [
+    {
+      "number": 1,
+      "label": "Visual scan",
+      "title": "Select every white cat",
+      "hint": "Choose all that apply.",
+      "answerIds": [2, 5],
+      "images": [
+        { "id": 1, "image": "cat1.jpg" },
+        { "id": 2, "image": "cat2.webp" },
+        { "id": 3, "image": "cat3.jpg" },
+        { "id": 4, "image": "cat4.jpg" },
+        { "id": 5, "image": "cat5.jpeg" },
+        { "id": 6, "image": "cat6.jpeg" },
+        { "id": 7, "image": "cat7.webp" },
+        { "id": 8, "image": "cat8.webp" },
+        { "id": 9, "image": "cat9.jpg" }
+      ]
+    },
+    {
+      "number": 2,
+      "label": "Read the image",
+      "title": "Type the word shown in the image",
+      "hint": "Use capital or lowercase letters.",
+      "answer": "ORBIT",
+      "imageText": "ORBIT",
+      "imageCaption": "A word appears among the signal noise."
+    },
+    {
+      "number": 3,
+      "label": "Quick calculation",
+      "title": "Solve the operation",
+      "hint": "Enter the result, then finish the check.",
+      "operation": "18 + 27",
+      "answer": 45
+    }
+  ]
+}
