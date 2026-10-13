@@ -5,7 +5,7 @@
       "label": "Visual scan",
       "title": "Select every white cat",
       "hint": "Choose all that apply.",
-      "answerIds": [2, 5],
+      "answerIds": [1,2,3],
       "images": [
         { "id": 1, "image": "cat1.jpg" },
         { "id": 2, "image": "cat2.webp" },
@@ -23,7 +23,7 @@
       "label": "Read the image",
       "title": "Type the word shown in the image",
       "hint": "Use capital or lowercase letters.",
-      "answer": "ORBIT",
+      "answer": "ECOMMERCE",
       "imageText": "ORBIT",
       "imageCaption": "A word appears among the signal noise."
     },

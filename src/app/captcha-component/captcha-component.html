@@ -1,0 +1,83 @@
+<main class="grid min-h-screen place-items-center bg-stone-100 p-3 font-serif text-slate-800 sm:p-6">
+    <section class="w-full max-w-3xl border border-stone-300 bg-stone-50 shadow-lg" aria-labelledby="challenge-title">
+        <header class="flex items-start justify-between gap-6 px-6 pb-7 pt-10 sm:px-12 sm:pb-8 sm:pt-[42px]">
+            <div>
+                <p class="m-0 font-sans text-xs font-bold uppercase tracking-widest text-teal-700">Human check</p>
+                <h1 id="challenge-title" class="mt-3 max-w-lg text-4xl font-normal leading-tight sm:text-5xl">Quick
+                    puzzle, then you’re in.</h1>
+            </div>
+            <span class="font-sans text-xs font-bold tracking-wide text-slate-500">{{ currentStage }} / 3</span>
+        </header>
+
+        <nav class="flex gap-2 px-6 pb-7 sm:px-12" aria-label="Challenge progress">
+            @for (stage of puzzles; track stage.number) {
+            <button type="button" class="flex-1 border-t border-stone-300 pt-3 text-left font-sans text-xs leading-tight text-slate-500 disabled:cursor-not-allowed disabled:opacity-50"
+                [class.border-teal-700]="stage.number <= currentStage"
+                [class.text-slate-800]="stage.number === currentStage"
+                [class.text-teal-700]="stage.number < currentStage"
+                [disabled]="stage.number > currectSuccededStage"
+                [attr.aria-current]="stage.number === currentStage ? 'step' : null"
+                (click)="navigateToStage(stage.number)">
+                <span class="mt-1.5 block sm:mt-0 sm:inline">{{ stage.label }}</span>
+            </button>
+            }
+        </nav>
+
+        <div class="border-t border-stone-300 px-6 pb-12 pt-8 sm:px-12">
+            <p class="m-0 font-sans text-xs font-bold uppercase tracking-widest text-teal-700">Stage {{ currentStage }}
+            </p>
+            <h2 class="mt-2 text-3xl font-normal leading-tight sm:text-4xl">{{ currentPuzzle.title }}</h2>
+            <p class="my-2.5 mb-6 text-base leading-6 text-slate-500">{{ currentPuzzle.hint }}</p>
+
+            @if (currentStage === 1) {
+            <div class="grid grid-cols-3 gap-2.5" aria-label="Cat images">
+                @for (image of currentPuzzle.images; track image.id) {
+                <label class="group relative block aspect-square cursor-pointer overflow-hidden">
+                    <input class="peer absolute opacity-0" type="checkbox" [value]="image.id"
+                        (change)="onImageChange($event, image.id)" />
+                    <img class="block h-full w-full object-cover saturate-50 transition duration-200 group-hover:scale-105 group-hover:saturate-100 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-teal-700"
+                        [src]="'/cats/' + image.image" [alt]="'Cat option ' + image.id" />
+                    <span
+                        class="absolute bottom-2 right-2 grid h-7 w-7 place-items-center border border-stone-300 bg-stone-50 font-sans text-base font-bold text-transparent peer-checked:border-teal-700 peer-checked:bg-teal-700 peer-checked:text-stone-50"
+                        aria-hidden="true">✓</span>
+                </label>
+                }
+            </div>
+            }
+
+            @if (currentStage === 2) {
+            <img src="/captcha_puzzle.jpg" alt="Captcha puzzle" class="mb-6 block w-full object-cover">
+            <label class="mb-2 block font-sans text-xs font-bold uppercase tracking-wide text-slate-500"
+                for="captcha-word">Your answer</label>
+            <input id="captcha-word"
+                class="w-full border border-stone-300 bg-stone-50 px-4 py-3.5 font-serif text-base text-slate-800 outline-2 outline-offset-2 outline-transparent focus:outline-teal-700"
+                type="text" placeholder="Type the word" [value]="wordAnswer" (input)="onWordInput($event)" />
+            }
+
+            @if (currentStage === 3) {
+            <div class="mb-6 flex min-h-36 items-center justify-center gap-4 bg-lime-100 text-5xl sm:text-7xl"
+                aria-label="Math operation">
+                <span>{{ currentPuzzle.operation }}</span>
+                <span class="text-teal-700">=</span>
+                <span class="block w-20 border-b-4 border-slate-800"></span>
+            </div>
+            <label class="mb-2 block font-sans text-xs font-bold uppercase tracking-wide text-slate-500"
+                for="captcha-number">Your answer</label>
+            <input id="captcha-number"
+                class="w-full border border-stone-300 bg-stone-50 px-4 py-3.5 font-serif text-base text-slate-800 outline-2 outline-offset-2 outline-transparent focus:outline-teal-700"
+                type="number" placeholder="Enter the result" [value]="mathAnswer" (input)="onMathInput($event)" />
+            }
+
+            @if (feedbackMessage) {
+            <p class="mt-4 font-sans text-sm" [class.text-red-700]="feedbackIsError" [class.text-teal-700]="!feedbackIsError" role="status">
+                {{ feedbackMessage }}
+            </p>
+            }
+
+            <button
+                (click)="submitCurrentStage()"
+                class="mt-6 w-full border-0 bg-slate-800 px-6 py-4 font-sans text-xs font-bold uppercase tracking-wide text-stone-50 transition-colors hover:bg-teal-700 focus-visible:bg-teal-700"
+                type="button">{{ currentStage < currectSuccededStage ? 'Next stage' : currentStage === puzzles.length ? 'Finish' : 'Continue' }}</button>
+        </div>
+    </section>
+</main>
