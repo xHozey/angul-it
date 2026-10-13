@@ -11,7 +11,7 @@
 
         <nav class="flex gap-2 px-6 pb-7 sm:px-12" aria-label="Challenge progress">
             @for (stage of puzzles; track stage.number) {
-            <button type="button" class="flex-1 border-t border-stone-300 pt-3 text-left font-sans text-xs leading-tight text-slate-500 disabled:cursor-not-allowed disabled:opacity-50"
+            <button type="button" class="cursor-pointer flex-1 border-t border-stone-300 pt-3 text-left font-sans text-xs leading-tight text-slate-500 disabled:cursor-not-allowed disabled:opacity-50"
                 [class.border-teal-700]="stage.number <= currentStage"
                 [class.text-slate-800]="stage.number === currentStage"
                 [class.text-teal-700]="stage.number < currentStage"
@@ -32,8 +32,9 @@
             @if (currentStage === 1) {
             <div class="grid grid-cols-3 gap-2.5" aria-label="Cat images">
                 @for (image of currentPuzzle.images; track image.id) {
-                <label class="group relative block aspect-square cursor-pointer overflow-hidden">
+                <label class="group relative block aspect-square cursor-pointer overflow-hidden" [class.opacity-60]="currentStage < currectSuccededStage">
                     <input class="peer absolute opacity-0" type="checkbox" [value]="image.id"
+                        [disabled]="currentStage < currectSuccededStage"
                         (change)="onImageChange($event, image.id)" />
                     <img class="block h-full w-full object-cover saturate-50 transition duration-200 group-hover:scale-105 group-hover:saturate-100 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-teal-700"
                         [src]="'/cats/' + image.image" [alt]="'Cat option ' + image.id" />
@@ -50,8 +51,9 @@
             <label class="mb-2 block font-sans text-xs font-bold uppercase tracking-wide text-slate-500"
                 for="captcha-word">Your answer</label>
             <input id="captcha-word"
-                class="w-full border border-stone-300 bg-stone-50 px-4 py-3.5 font-serif text-base text-slate-800 outline-2 outline-offset-2 outline-transparent focus:outline-teal-700"
-                type="text" placeholder="Type the word" [value]="wordAnswer" (input)="onWordInput($event)" />
+                class="w-full border border-stone-300 bg-stone-50 px-4 py-3.5 font-serif text-base text-slate-800 outline-2 outline-offset-2 outline-transparent focus:outline-teal-700 disabled:cursor-not-allowed disabled:bg-stone-200 disabled:opacity-60"
+                type="text" placeholder="Type the word" [value]="wordAnswer"
+                [disabled]="currentStage < currectSuccededStage" (input)="onWordInput($event)" />
             }
 
             @if (currentStage === 3) {
@@ -64,8 +66,9 @@
             <label class="mb-2 block font-sans text-xs font-bold uppercase tracking-wide text-slate-500"
                 for="captcha-number">Your answer</label>
             <input id="captcha-number"
-                class="w-full border border-stone-300 bg-stone-50 px-4 py-3.5 font-serif text-base text-slate-800 outline-2 outline-offset-2 outline-transparent focus:outline-teal-700"
-                type="number" placeholder="Enter the result" [value]="mathAnswer" (input)="onMathInput($event)" />
+                class="w-full border border-stone-300 bg-stone-50 px-4 py-3.5 font-serif text-base text-slate-800 outline-2 outline-offset-2 outline-transparent focus:outline-teal-700 disabled:cursor-not-allowed disabled:bg-stone-200 disabled:opacity-60"
+                type="number" placeholder="Enter the result" [value]="mathAnswer"
+                [disabled]="currentStage < currectSuccededStage" (input)="onMathInput($event)" />
             }
 
             @if (feedbackMessage) {

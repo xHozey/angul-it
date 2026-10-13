@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import captchaPuzzles from '../data/captcha-puzzles.json';
 
 const STORAGE_KEYS = [
@@ -16,6 +17,8 @@ const STORAGE_KEYS = [
   templateUrl: './captcha-component.html',
 })
 export class CaptchaComponent implements OnInit {
+  constructor(private readonly router: Router) {}
+
   readonly puzzles = captchaPuzzles.stages;
   currentStage = 1;
   currectSuccededStage = 1;
@@ -83,6 +86,11 @@ export class CaptchaComponent implements OnInit {
       this.selectedImages = [];
       this.wordAnswer = '';
       this.mathAnswer = '';
+    } else {
+      this.currectSuccededStage = this.puzzles.length;
+      this.saveState();
+      this.router.navigate(['/result']);
+      return;
     }
 
     this.saveState();
