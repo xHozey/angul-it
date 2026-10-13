@@ -9,6 +9,7 @@ const STORAGE_KEYS = [
   'second_stage_retries',
   'third_stage_retries',
 ] as const;
+const COMPLETION_KEY = 'challenge_completed';
 
 @Component({
   imports: [],
@@ -88,6 +89,7 @@ export class CaptchaComponent implements OnInit {
       this.mathAnswer = '';
     } else {
       this.currectSuccededStage = this.puzzles.length;
+      this.markChallengeComplete();
       this.saveState();
       this.router.navigate(['/result']);
       return;
@@ -170,6 +172,13 @@ export class CaptchaComponent implements OnInit {
 
     try {
       STORAGE_KEYS.forEach((key) => localStorage.removeItem(key));
+      localStorage.removeItem(COMPLETION_KEY);
+    } catch {}
+  }
+
+  private markChallengeComplete(): void {
+    try {
+      localStorage.setItem(COMPLETION_KEY, 'true');
     } catch {}
   }
 

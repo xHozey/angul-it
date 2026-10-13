@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import captchaPuzzles from '../data/captcha-puzzles.json';
 
 const STORAGE_KEYS = [
   'current_stage',
@@ -8,6 +9,7 @@ const STORAGE_KEYS = [
   'second_stage_retries',
   'third_stage_retries',
 ] as const;
+const COMPLETION_KEY = 'challenge_completed';
 
 @Component({
   imports: [],
@@ -24,12 +26,18 @@ export class ResultComponent implements OnInit {
   score = 100;
 
   ngOnInit(): void {
+    if (!this.hasCompletedChallenge()) {
+      this.router.navigate(['/captcha']);
+      return;
+    }
+
     this.loadResults();
   }
 
   restart(): void {
     try {
       STORAGE_KEYS.forEach((key) => localStorage.removeItem(key));
+      localStorage.removeItem(COMPLETION_KEY);
     } catch {}
 
     this.router.navigate(['/captcha']);
@@ -42,6 +50,15 @@ export class ResultComponent implements OnInit {
     this.secondStageTries = retries[1] + 1;
     this.thirdStageTries = retries[2] + 1;
     this.score = Math.max(0, 100 - retries.reduce((total, count) => total + count, 0) * 10);
+  }
+
+  private hasCompletedChallenge(): boolean {
+    if (typeof localStorage === 'undefined') {
+      return false;
+    }
+
+    return localStorage.getItem(COMPLETION_KEY) === 'true' &&
+      Number(localStorage.getItem('current_succeded_stage')) === captchaPuzzles.stages.length;
   }
 
   private readRetryCount(key: string): number {
